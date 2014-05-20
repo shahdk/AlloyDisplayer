@@ -9,6 +9,7 @@ public class AlloyFrame extends JFrame {
 
 	private JTabbedPane tabs;
 	private ArrayList<String> xmlFiles = new ArrayList<String>();
+	private ArrayList<String> commandNames = new ArrayList<String>();
 	private String themeFile;
 
 	public AlloyFrame(String alloyModelPath, String themeFilePath, String fileName) {
@@ -23,6 +24,7 @@ public class AlloyFrame extends JFrame {
 				new AlloyCodeAnalysisManager(alloyModelPath);
 			manager.process();
 			this.xmlFiles = manager.getXMLFilePaths();
+			this.commandNames = manager.getCommandNames();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -43,8 +45,8 @@ public class AlloyFrame extends JFrame {
 				
 				JSplitPane displayPanel = vizGui.getPanel();
 				if (displayPanel != null) {
-					this.tabs.addTab("Run "+i, null, displayPanel,
-                "Run "+i);
+					this.tabs.addTab(this.commandNames.get(i), null, displayPanel,
+                this.commandNames.get(i));
 				}
 				
 			}

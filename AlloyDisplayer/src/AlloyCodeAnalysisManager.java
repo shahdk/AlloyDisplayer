@@ -14,23 +14,13 @@ public class AlloyCodeAnalysisManager {
 
 	private File alloyFolder;
 	private ArrayList<String> xmlFilePaths = new ArrayList<String>();
+	private ArrayList<String> commandNames = new ArrayList<String>();
 
 	public AlloyCodeAnalysisManager(String alloyModelPath) throws Exception {
 		this.alloyFolder = new File(alloyModelPath);
 	}
 
 	public void process() throws Exception {
-
-		//		File[] srcFiles = this.alloyFolder.listFiles(
-		//				new FileFilter() {
-		//					@Override
-		//					public boolean accept(File pathname) {
-		//						if(pathname.isFile() && pathname.getName().endsWith("als"))
-		//							return true;
-		//						return false;
-		//					}
-		//				}
-		//		);
 
 		// Create error reporter
 		A4Reporter reporter = new A4Reporter() {
@@ -63,6 +53,9 @@ public class AlloyCodeAnalysisManager {
 			options.solver = A4Options.SatSolver.SAT4J;
 
 			for (Command command : world.getAllCommands()) {
+				String[] commandString = command.toString().split("\\s+");
+				this.commandNames.add(commandString[1]);
+				
 				A4Solution ans =
 					TranslateAlloyToKodkod.execute_command(
 						reporter,
@@ -88,5 +81,9 @@ public class AlloyCodeAnalysisManager {
 
 	public ArrayList<String> getXMLFilePaths() {
 		return this.xmlFilePaths;
+	}
+	
+	public ArrayList<String> getCommandNames() {
+		return this.commandNames;
 	}
 }

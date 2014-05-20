@@ -45,8 +45,8 @@ public class FileChooser extends JFrame implements ActionListener {
 		this.alloyPathPanel.setLayout(new BorderLayout());
 		this.themeFilePanel.setLayout(new BorderLayout());
 
-		this.alloyFilePath = new JTextField();
-		this.themeFilePath = new JTextField();
+		this.alloyFilePath = new JTextField("C:\\Users\\shahdk\\Desktop\\CSSE373\\AlloyLab\\Project\\part4\\rdt22.als");
+		this.themeFilePath = new JTextField("C:\\Users\\shahdk\\Desktop\\CSSE373\\AlloyLab\\Project\\part4\\mytheme.thm");
 		this.alloyFilePath.setSize(20, 130);
 		this.themeFilePath.setSize(20, 130);
 
