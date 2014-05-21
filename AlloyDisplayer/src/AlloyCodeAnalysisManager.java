@@ -39,6 +39,7 @@ public class AlloyCodeAnalysisManager {
 	public static File alloyFolder;
 	private ArrayList<String> xmlFilePaths = new ArrayList<String>();
 	private ArrayList<String> commandNames = new ArrayList<String>();
+	private static String errorMessage = "";
 	private Computer evaluator;
 
 	private static final BooleanPref ImplicitThis = new BooleanPref(
@@ -94,11 +95,14 @@ public class AlloyCodeAnalysisManager {
 
 	public void process() throws Exception {
 
-		// Create error reporter
 		A4Reporter reporter = new A4Reporter() {
+			
 			@Override
 			public void warning(ErrorWarning msg) {
-				System.out.println("Error");
+				System.out.println("================");
+				System.out.println("Warning");
+				System.out.println(msg.dump());
+//				AlloyCodeAnalysisManager.errorMessage = msg.dump();
 			}
 		};
 
@@ -107,23 +111,17 @@ public class AlloyCodeAnalysisManager {
 			String fileName = alloyFolder.getAbsolutePath();
 			this.evaluator = this.createComputer();
 			CompModule world = null;
-			Map<String, String> map = null;
 			try {
 				world =
-					CompUtil.parseEverything_fromFile(reporter, map, fileName);
+					CompUtil.parseEverything_fromFile(reporter, null, fileName);
 			}
 			catch (Exception e) {
-				//
+				AlloyCodeAnalysisManager.errorMessage = e.getMessage();
 			}
 			if (world == null) {
 				return;
 			}
 			
-
-			//			SafeList<CompModule> x = world.getAllReachableModules();
-			//			System.out.println(x.toString());
-
-			// Choosing default options for how you want to execute the commands
 			A4Options options = new A4Options();
 			options.solver = A4Options.SatSolver.SAT4J;
 
@@ -148,6 +146,7 @@ public class AlloyCodeAnalysisManager {
 					System.out.println("Done " + System.getProperty("user.dir")
 							+ "\\" + outputFileName);
 				}
+				
 			}
 		}
 		catch (Exception e) {
@@ -279,5 +278,9 @@ public class AlloyCodeAnalysisManager {
 
 	public Computer getEvaluator() {
 		return this.evaluator;
+	}
+	
+	public String getErrorMessageString(){
+		return AlloyCodeAnalysisManager.errorMessage;
 	}
 }
