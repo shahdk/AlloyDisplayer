@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import kodkod.engine.Evaluator;
+import edu.mit.csail.sdg.alloy4.Computer;
 import edu.mit.csail.sdg.alloy4viz.VizGUI;
 
 @SuppressWarnings("javadoc")
@@ -10,6 +12,7 @@ public class AlloyFrame extends JFrame {
 	private JTabbedPane tabs;
 	private ArrayList<String> xmlFiles = new ArrayList<String>();
 	private ArrayList<String> commandNames = new ArrayList<String>();
+	private Computer evaluator;
 	private String themeFile;
 
 	public AlloyFrame(String alloyModelPath, String themeFilePath, String fileName) {
@@ -25,6 +28,8 @@ public class AlloyFrame extends JFrame {
 			manager.process();
 			this.xmlFiles = manager.getXMLFilePaths();
 			this.commandNames = manager.getCommandNames();
+			this.evaluator = manager.getEvaluator();
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -37,8 +42,7 @@ public class AlloyFrame extends JFrame {
 	private void displayInstance() {
 		try {
 			for (int i = 0; i < this.xmlFiles.size(); i++) {
-				VizGUI vizGui = new VizGUI(true, "", null, null, null, false);
-				vizGui.loadXML(this.xmlFiles.get(i), true);
+				VizGUI vizGui = new VizGUI(true, this.xmlFiles.get(i), null, null, this.evaluator, false);
 				if (this.themeFile.length() > 0)
 					vizGui.loadThemeFile(this.themeFile);
 				vizGui.doShowViz();
