@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import kodkod.engine.Evaluator;
 import edu.mit.csail.sdg.alloy4.Computer;
 import edu.mit.csail.sdg.alloy4viz.VizGUI;
 

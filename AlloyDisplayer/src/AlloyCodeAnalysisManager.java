@@ -89,7 +89,7 @@ public class AlloyCodeAnalysisManager {
 	}
 
 	public AlloyCodeAnalysisManager(String alloyModelPath) throws Exception {
-		this.alloyFolder = new File(alloyModelPath);
+		alloyFolder = new File(alloyModelPath);
 	}
 
 	public void process() throws Exception {
@@ -104,7 +104,7 @@ public class AlloyCodeAnalysisManager {
 
 		int count = 0;
 		try {
-			String fileName = this.alloyFolder.getAbsolutePath();
+			String fileName = alloyFolder.getAbsolutePath();
 			this.evaluator = this.createComputer();
 			CompModule world = null;
 			Map<String, String> map = null;
