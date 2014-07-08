@@ -17,6 +17,8 @@ public class AlloyFrame extends JFrame {
 	private Computer evaluator;
 	private String themeFile;
 	private String errorMessage = "";
+	private AlloyCodeAnalysisManager manager;
+	private MenuBar menuBar;
 
 	public AlloyFrame(
 		String alloyModelPath,
@@ -29,20 +31,19 @@ public class AlloyFrame extends JFrame {
 
 		try {
 			alloyModelPath = alloyModelPath.replace("\\", "/");
-			AlloyCodeAnalysisManager manager =
-				new AlloyCodeAnalysisManager(alloyModelPath);
-			manager.process();
-			this.xmlFiles = manager.getXMLFilePaths();
-			this.commandNames = manager.getCommandNames();
-			this.evaluator = manager.getEvaluator();
-			this.errorMessage = manager.getErrorMessageString();
-
+			this.manager = new AlloyCodeAnalysisManager(alloyModelPath);
+			this.manager.process();
+			this.xmlFiles = this.manager.getXMLFilePaths();
+			this.commandNames = this.manager.getCommandNames();
+			this.evaluator = this.manager.getEvaluator();
+			this.errorMessage = this.manager.getErrorMessageString();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		this.menuBar = new MenuBar(this.themeFile);
 		this.themeFile = themeFilePath;
+		this.setJMenuBar(this.menuBar);
 		this.displayInstance();
 	}
 
