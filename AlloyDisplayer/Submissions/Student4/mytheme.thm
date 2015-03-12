@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<alloy>
+
+<view nodetheme="Martha">
+
+<projection> <type name="RDTState"/> </projection>
+
+<defaultnode/>
+
+<defaultedge/>
+
+<node>
+   <type name="Int"/>
+   <type name="Payload"/>
+   <type name="RDTState"/>
+   <type name="String"/>
+   <type name="univ"/>
+   <type name="seq/Int"/>
+</node>
+
+<node shape="Box" color="Yellow">
+   <type name="ACK"/>
+</node>
+
+<node shape="Ellipse" color="Green">
+   <type name="CheckSum"/>
+</node>
+
+<node shape="House" color="Red">
+   <type name="NAK"/>
+</node>
+
+<node shape="Parallelogram" color="Gray">
+   <type name="Packet"/>
+</node>
+
+<node shape="Trapezoid" color="Blue">
+   <type name="Data"/>
+</node>
+
+<node style="Bold">
+   <set name="channel" type="Packet"/>
+   <set name="currentData" type="Data"/>
+   <set name="First" type="ordering/Ord"/>
+   <set name="Next" type="ordering/Ord"/>
+   <set name="receiverBuffer" type="Data"/>
+   <set name="senderBuffer" type="Data"/>
+</node>
+
+<node visible="no">
+   <type name="SeqNum"/>
+   <type name="open$3/Ord"/>
+   <type name="open$4/Ord"/>
+   <type name="open$5/Ord"/>
+   <type name="open$6/Ord"/>
+   <type name="open$7/Ord"/>
+   <type name="open$8/Ord"/>
+   <type name="open$9/Ord"/>
+   <type name="ordering/Ord"/>
+</node>
+
+<node visible="yes">
+   <type name="S0"/>
+   <type name="S1"/>
+</node>
+
+<node visible="yes" style="Bold">
+   <set name="receiverSequence" type="SeqNum"/>
+   <set name="senderSequence" type="SeqNum"/>
+</node>
+
+<edge color="Gray" constraint="no">
+   <relation name="Next"> <type name="open$3/Ord"/> <type name="Packet"/> <type name="Packet"/> </relation>
+   <relation name="Next"> <type name="open$4/Ord"/> <type name="CheckSum"/> <type name="CheckSum"/> </relation>
+   <relation name="Next"> <type name="open$5/Ord"/> <type name="Data"/> <type name="Data"/> </relation>
+   <relation name="Next"> <type name="open$6/Ord"/> <type name="ACK"/> <type name="ACK"/> </relation>
+   <relation name="Next"> <type name="open$7/Ord"/> <type name="NAK"/> <type name="NAK"/> </relation>
+   <relation name="Next"> <type name="open$8/Ord"/> <type name="S0"/> <type name="S0"/> </relation>
+   <relation name="Next"> <type name="open$9/Ord"/> <type name="S1"/> <type name="S1"/> </relation>
+</edge>
+
+<edge color="Gray" visible="no" attribute="yes" constraint="no">
+   <relation name="dataSequence"> <type name="Packet"/> <type name="SeqNum"/> </relation>
+   <relation name="First"> <type name="open$8/Ord"/> <type name="S0"/> </relation>
+   <relation name="First"> <type name="open$9/Ord"/> <type name="S1"/> </relation>
+</edge>
+
+<edge visible="no" merge="no" layout="no" attribute="no" constraint="no">
+   <relation name="$WorkingSimulationWithoutNAK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$WorkingSimulationWithNAK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$WorkingSimulationWithTwoNAK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$WorkingSimulationWithCorruptedACK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$WorkingSimulationWithNAKAndCorruptedACK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$NotWorkingSimulationWithNAK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+   <relation name="$NotWorkingSimulationWithCorruptedACK_p"> <type name="Payload"/> <type name="Packet"/> </relation>
+
+</edge>
+
+</view>
+
+</alloy>
